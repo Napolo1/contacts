@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Contact Example</title>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+        <meta name="viewport" id="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+        
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+    <script type="text/javascript" charset="utf-8" src="Contact.js"></script>
+    <script type="text/javascript" charset="utf-8" src="ContactAddress.js"></script>
+    <script type="text/javascript" charset="utf-8" src="ContactError.js"></script>
+    <script type="text/javascript" charset="utf-8" src="ContactField.js"></script>
+    <script type="text/javascript" charset="utf-8" src="ContactFieldType.js"></script>
+    <script type="text/javascript" charset="utf-8" src="ContactFindOptions.js"></script>
+    <script type="text/javascript" charset="utf-8" src="ContactName.js"></script>
+    <script type="text/javascript" charset="utf-8" src="ContactOrganization.js"></script>
+    <script type="text/javascript" charset="utf-8" src="contacts.js"></script>
+    <script type="text/javascript" charset="utf-8" src="convertUtils.js"></script>
+
+    <script type="text/javascript" charset="utf-8">
+    // Wait for device API libraries to load
+    //
+    document.addEventListener("deviceready", onDeviceReady, false);
+    // device APIs are available
+    //
+    function addContact(contactInfo) {
+//Create a new contact object
+var contact = navigator.contacts.create();
+//Populate the contact object with values
+contact.displayName = contactInfo.FullName;
+contact.nickname = contactInfo.FullName;
+//Populate the Contact's Name entries
+var tmpName = new ContactName();
+tmpName.givenName = contactInfo.FirstName;
+tmpName.familyName = contactInfo.LastName;
+tmpName.formatted = contactInfo.FullName;
+//Then add the name object to the contact object
+contact.name = tmpName;
+//Populate Phone Number Entries by creating and populating
+//an array of phone number information
+var phoneNums = [2];
+phoneNums[0] = new ContactField('work',
+contactInfo.OfficePhone, false);
+phoneNums[1] = new ContactField('mobile',
+contactInfo.MobilePhone, true);
+contact.phoneNumbers = phoneNums;
+//Populate Email Address the same way that you did the
+//phone numbers
+var emailAddresses = [1];
+emailAddresses[0] = new ContactField('home',
+contactInfo.EmailAddress, true);
+contact.emails = emailAddresses;
+// save the contact object to the device's contact database
+contact.save(onContactSaveSuccess, onContactSaveError);
+}
+
+    </script>
+  </head>
+  <body>
+    <h1>Actividad 1 - PhoneGap Contacts</h1>
+    <p>Create Contact</p>
+    <p id="networkInfo"></p>
+  </body>
+</html>
